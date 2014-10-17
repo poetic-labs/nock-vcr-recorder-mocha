@@ -2,8 +2,10 @@
 
 ## About
 
-A simple library that makes saving fixtures with nock and mocha easy. Just
-use `describeFixture` isntead of `describe` and it will record outbound requests
+A simple library that makes saving fixtures with
+[nock](https://github.com/pgte/nock) and
+[mocha](http://visionmedia.github.io/mocha/) easy. Just
+use `describeFixture` instead of `describe` and it will record outbound requests
 using nock into `test/fixtures` and read from them the next time you run the
 tests.
 
@@ -18,6 +20,33 @@ npm install --save-dev mocha-nock-fixtures
 Use `describeFixture` instead of `describe` and it will use nock to record all
 requests into your `test/fixtures` directory. It also supports `.skip` and
 `.only` as mocha does.
+
+```js
+var request         = require('request');
+var assert          = require('assert');
+var describeFixture = require('mocha-nock-fixtures');
+
+describeFixture('normal test', function() {
+  it('works', function(done) {
+    request('http://localhost:4000/users', function(err, res, body) {
+      assert(!err, 'was success');
+      done();
+    });
+  });
+
+  describe('some other test', function() {
+    // You can use mocha how you normally would to group tests
+  });
+});
+
+describeFixture.skip('skipped test', function() {
+  // Anything in here will be skipped
+});
+
+describeFixture.only('only test', function() {
+  // This will be the only test run
+});
+```
 
 ## Configuration
 
