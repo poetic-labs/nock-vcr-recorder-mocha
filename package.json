@@ -1,0 +1,35 @@
+{
+  "name": "mocha-nock-fixtures",
+  "version": "0.1.0",
+  "description": "A simple library that makes saving fixtures with nock and mocha easy.",
+  "main": "lib/describe-fixture.js",
+  "scripts": {
+    "test": "rm -rf test/fixtures && node_modules/mocha/bin/mocha test/*-test.js "
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/poetic/mocha-nock-fixtures.git"
+  },
+  "keywords": [
+    "mocha",
+    "nock",
+    "testing",
+    "fixtures",
+    "mocking"
+  ],
+  "author": "Jake Craige <jake@poeticsystems.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/poetic/mocha-nock-fixtures/issues"
+  },
+  "homepage": "https://github.com/poetic/mocha-nock-fixtures",
+  "dependencies": {
+    "mkdirp": "^0.5.0",
+    "nock": "^0.48.0"
+  },
+  "devDependencies": {
+    "express": "^3.4.8",
+    "mocha": "^1.21.5",
+    "request": "~2.34.0"
+  }
+}
