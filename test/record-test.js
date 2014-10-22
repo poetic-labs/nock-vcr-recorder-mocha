@@ -71,6 +71,10 @@ describe.skip('Recording', function() {
     delete process.env.NOCK_RECORD_ON_FAILURE;
   });
 
+  after(function() {
+    delete process.env.NOCK_RECORD_ON_FAILURE;
+  });
+
   describeFixture('NOCK_RECORD_ON_FAILURE', function() {
     afterEach(function() {
       // This is some hackery to make it think the test failed when it really
