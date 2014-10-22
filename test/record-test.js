@@ -59,7 +59,7 @@ describe('Recording', function() {
 // The order in this group of tests is important for it to run correctly. The
 // afterEach's need to run in a particular order
 // Skipped as this test passes localy but not on CI. :(
-describe.skip('Recording', function() {
+describe('Recording', function() {
   before(function(done) {
     process.env.NOCK_RECORD_ON_FAILURE = true;
     app.listen(4003, done);
@@ -68,6 +68,9 @@ describe.skip('Recording', function() {
   afterEach(function() {
     var fixturepath = 'fixtures/recording/NOCK_RECORD_ON_FAILURE/saves a fixture when the test fails.js';
     assert(fs.existsSync(path.join(__dirname, fixturepath)), 'fixture should exist');
+  });
+
+  after(function() {
     delete process.env.NOCK_RECORD_ON_FAILURE;
   });
 
