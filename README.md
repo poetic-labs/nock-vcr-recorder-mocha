@@ -50,8 +50,10 @@ describeFixture.only('only test', function() {
 
 ## Configuration
 
-If you set the environment variable `NOCK_RECORD` to true it will re-record all
+`NOCK_RECORD` - default: false -  When true it will re-record all
 of your fixtures and save over them.
+
+`NOCK_RECORD_ON_FAILURE` - default: false - When true it will record fixtures even when your test fails.
 
 ## Authors ##
 
