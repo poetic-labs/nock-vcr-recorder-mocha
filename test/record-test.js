@@ -14,10 +14,17 @@ describeFixture('Recording', function() {
     after(function() {
       var fixturePath = 'fixtures/Recording/successful/saves a fixture with the server response.js';
       assert(fs.existsSync(path.join(__dirname, fixturePath)));
+
+      var fixturePath = 'fixtures/Recording/successful/doesn\'t save a file when no requests are made.js';
+      assert(!fs.existsSync(path.join(__dirname, fixturePath)));
     });
 
     it('saves a fixture with the server response', function(done) {
       request('http://localhost:4000/test', done);
+    });
+
+    it('doesn\'t save a file when no requests are made', function() {
+      assert(true);
     });
   });
 
