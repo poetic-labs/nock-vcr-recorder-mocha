@@ -59,28 +59,28 @@ describe('Recording', function() {
 // The order in this group of tests is important for it to run correctly. The
 // afterEach's need to run in a particular order
 // Skipped as this test passes localy but not on CI. :(
-describe.skip('Recording', function() {
-  before(function(done) {
-    process.env.NOCK_RECORD_ON_FAILURE = true;
-    app.listen(4003, done);
-  });
+//describe('Recording', function() {
+  //before(function(done) {
+    //process.env.NOCK_RECORD_ON_FAILURE = true;
+    //app.listen(4003, done);
+  //});
 
-  afterEach(function() {
-    var fixturepath = 'fixtures/recording/NOCK_RECORD_ON_FAILURE/saves a fixture when the test fails.js';
-    assert(fs.existsSync(path.join(__dirname, fixturepath)), 'fixture should exist');
-    delete process.env.NOCK_RECORD_ON_FAILURE;
-  });
+  //afterEach(function() {
+    //var fixturepath = 'fixtures/recording/NOCK_RECORD_ON_FAILURE/saves a fixture when the test fails.js';
+    //assert(fs.existsSync(path.join(__dirname, fixturepath)), 'fixture should exist');
+    //delete process.env.NOCK_RECORD_ON_FAILURE;
+  //});
 
-  describeFixture('NOCK_RECORD_ON_FAILURE', function() {
-    afterEach(function() {
-      // This is some hackery to make it think the test failed when it really
-      // didn't. This works because it uses state internally to check for
-      // a failure.
-      this.currentTest.state = 'failed';
-    });
+  //describeFixture('NOCK_RECORD_ON_FAILURE', function() {
+    //afterEach(function() {
+      //// This is some hackery to make it think the test failed when it really
+      //// didn't. This works because it uses state internally to check for
+      //// a failure.
+      //this.currentTest.state = 'failed';
+    //});
 
-    it('saves a fixture when the test fails', function(done) {
-      request('http://localhost:4000/test', done);
-    });
-  });
+    //it('saves a fixture when the test fails', function(done) {
+      //request('http://localhost:4000/test', done);
+    //});
+  //});
 });
