@@ -1,6 +1,6 @@
 {
   "name": "mocha-nock-fixtures",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple library that makes saving fixtures with nock and mocha easy.",
   "main": "lib/describe-fixture.js",
   "scripts": {
