@@ -47,6 +47,23 @@ describeFixture.only('only test', function() {
   // This will be the only test run
 });
 ```
+## With Nock options
+describeFixture('normal test', function() {
+  it('works', function(done) {
+    request('http://localhost:4000/users', function(err, res, body) {
+      assert(!err, 'was success');
+      done();
+    });
+  });
+
+  describe('some other test', function() {
+    // You can use mocha how you normally would to group tests
+  });
+}, {
+   output_objects: true,
+   dont_print: true,
+   enable_reqheaders_recording: true
+});
 
 ## Configuration
 
