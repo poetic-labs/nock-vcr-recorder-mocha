@@ -25,7 +25,7 @@
   "homepage": "https://github.com/poetic/mocha-nock-fixtures",
   "dependencies": {
     "mkdirp": "^0.5.0",
-    "nock": "^0.48.0"
+    "nock": "^0.51.0"
   },
   "devDependencies": {
     "express": "^3.4.8",
