@@ -5,13 +5,14 @@ var describeFixture = require('./../lib/describe-fixture');
 var testName = 'testTitle';
 
 var testOptions = {
-  output_objects: false,
-  dont_print: true,
-  enable_reqheaders_recording: true
-}
+  recorder: {
+    output_objects: false,
+    dont_print: true,
+    enable_reqheaders_recording: true
+  }
+};
 
 describe('describeFixture', function() {
-
   var recordStub = function(name, options) {
     assert.equal(name, testName, 'title is ok');
     assert.deepEqual(options, testOptions);
@@ -38,7 +39,7 @@ describe('describeFixture', function() {
   it('defaults to output objects', function() {
     var recordStub = function(name, options) {
       assert.equal(name, testName, 'title is ok');
-      assert.deepEqual(options, { output_objects: true, dont_print: true });
+      assert.deepEqual(options, { excludeScope: 'localhost', recorder: { output_objects: true, dont_print: true }});
     }
     var describeFixture = proxyquire('./../lib/describe-fixture', { './recorder': recordStub });
     describeFixture(testName, function() {});

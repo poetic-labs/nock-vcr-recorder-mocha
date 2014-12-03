@@ -35,7 +35,7 @@ describeFixture('Playback', function() {
       done();
     });
   });
-}, { output_objects: false });
+}, { recorder: { output_objects: false }});
 
 describeFixture('Playback - Output Objects', function() {
   before(function(done) {

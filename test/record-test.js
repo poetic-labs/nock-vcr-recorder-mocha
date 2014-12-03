@@ -43,7 +43,7 @@ describeFixture('Recording', function() {
     });
   });
 
-}, { output_objects: false });
+}, { recorder: { output_objects: false }});
 
 // The order in this group of tests is important for it to run correctly. The
 // afterEach's need to run in a particular order
@@ -69,7 +69,7 @@ describe('Recording', function() {
       request('http://localhost:4000/test', done);
     });
   });
-}, { output_objects: false });
+}, { recorder: { output_objects: false }});
 
 // The order in this group of tests is important for it to run correctly. The
 // afterEach's need to run in a particular order
@@ -135,5 +135,4 @@ describeFixture('Recording - Output Objects', function() {
       request('https://github.com/poetic.json', done);
     });
   });
-
 });
