@@ -75,7 +75,8 @@ Defaults:
 ```js
 {
   // Don't record any requests to this scope
-  excludeScope: 'localhost',
+  // It can be an array or string
+  excludeScope: ['localhost', '127.0.0.1', '0.0.0.0'],
 
   // Re-record and overwrite your current fixtures
   overwrite: false,

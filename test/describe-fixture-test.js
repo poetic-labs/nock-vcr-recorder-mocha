@@ -5,6 +5,9 @@ var describeFixture = require('./../lib/describe-fixture');
 var testName = 'testTitle';
 
 var testOptions = {
+  excludeScope: ['localhost'],
+  overwrite: false,
+  recordOnFailure: false,
   recorder: {
     output_objects: false,
     dont_print: true,
@@ -40,7 +43,7 @@ describe('describeFixture', function() {
     var recordStub = function(name, options) {
       assert.equal(name, testName, 'title is ok');
       assert.deepEqual(options, {
-        excludeScope: 'localhost',
+        excludeScope: ['localhost', '127.0.0.1', '0.0.0.0'],
         overwrite: false,
         recordOnFailure: false,
         recorder: { output_objects: true, dont_print: true }
@@ -55,7 +58,7 @@ describe('describeFixture', function() {
       var recordStub = function(name, options) {
         assert.equal(name, testName, 'title is ok');
         assert.deepEqual(options, {
-          excludeScope: 'github.com',
+          excludeScope: ['github.com'],
           overwrite: false,
           recordOnFailure: false,
           recorder: {
@@ -80,7 +83,7 @@ describe('describeFixture', function() {
       var recordStub = function(name, options) {
         assert.equal(name, testName, 'title is ok');
         assert.deepEqual(options, {
-          excludeScope: 'poeticsystems.com',
+          excludeScope: ['poeticsystems.com'],
           overwrite: false,
           recordOnFailure: false,
           recorder: {
