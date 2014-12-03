@@ -28,7 +28,7 @@ describeFixture('Recording', function() {
     });
   });
 
-});
+}, { output_objects: false });
 
 // The order in this group of tests is important for it to run correctly. The
 // afterEach's need to run in a particular order
@@ -54,7 +54,7 @@ describe('Recording', function() {
       request('http://localhost:4000/test', done);
     });
   });
-});
+}, { output_objects: false });
 
 // The order in this group of tests is important for it to run correctly. The
 // afterEach's need to run in a particular order
@@ -84,3 +84,29 @@ describe('Recording', function() {
     //});
   //});
 //});
+
+
+describeFixture('Recording - Output Objects', function() {
+  before(function(done) {
+    app.listen(4006, done);
+  });
+
+  describe('successful', function() {
+    after(function() {
+      var fixturePath = 'fixtures/Recording - Output Objects/successful/saves a fixture with the server response.js';
+      assert(fs.existsSync(path.join(__dirname, fixturePath)));
+
+      var fixturePath = 'fixtures/Recording - Output Objects/successful/doesn\'t save a file when no requests are made.js';
+      assert(!fs.existsSync(path.join(__dirname, fixturePath)));
+    });
+
+    it('saves a fixture with the server response', function(done) {
+      request('http://localhost:4006/test', done);
+    });
+
+    it('doesn\'t save a file when no requests are made', function() {
+      assert(true);
+    });
+  });
+
+});
