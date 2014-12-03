@@ -35,7 +35,7 @@ describeFixture('Playback', function() {
       done();
     });
   });
-});
+}, { output_objects: false });
 
 describeFixture('Playback - Output Objects', function() {
   before(function(done) {
@@ -65,4 +65,4 @@ describeFixture('Playback - Output Objects', function() {
       done();
     });
   });
-}, { output_objects: true, dont_print: true });
+});
