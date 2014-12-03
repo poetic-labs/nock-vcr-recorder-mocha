@@ -48,10 +48,12 @@ describeFixture.only('only test', function() {
 });
 
 // Usage with test specific options
+//
+// This test will not record the request to localhost:4000 and anything it does
+// record it will also record the reqheaders
 describeFixture('normal test', {
-  excludeScope: 'github.com',
+  excludeScope: 'localhost:4000',
   recorder: {
-    output_objects: false,
     enable_reqheaders_recording: true
   }
 }, function() {
