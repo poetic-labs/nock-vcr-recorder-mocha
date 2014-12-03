@@ -44,4 +44,55 @@ describe('describeFixture', function() {
     var describeFixture = proxyquire('./../lib/describe-fixture', { './recorder': recordStub });
     describeFixture(testName, function() {});
   });
+
+  describe('#defaultConfig', function() {
+    it('provide custom defaults', function() {
+      var recordStub = function(name, options) {
+        assert.equal(name, testName, 'title is ok');
+        assert.deepEqual(options, {
+          excludeScope: 'github.com',
+          recorder: {
+            output_objects: true,
+            dont_print: false
+          }
+        });
+      }
+      var describeFixture = proxyquire('./../lib/describe-fixture', { './recorder': recordStub });
+
+      describeFixture.setDefaultConfig({
+        excludeScope: 'github.com',
+        recorder: {
+          dont_print: false
+        }
+      });
+
+      describeFixture(testName, function() {});
+    });
+
+    it('provide custom defaults and scoped options', function() {
+      var recordStub = function(name, options) {
+        assert.equal(name, testName, 'title is ok');
+        assert.deepEqual(options, {
+          excludeScope: 'poeticsystems.com',
+          recorder: {
+            output_objects: true,
+            dont_print: true
+          }
+        });
+      }
+      var describeFixture = proxyquire('./../lib/describe-fixture', { './recorder': recordStub });
+
+      describeFixture.setDefaultConfig({
+        excludeScope: 'github.com',
+        recorder: {
+          dont_print: false
+        }
+      });
+
+      describeFixture(testName, function() {}, {
+        excludeScope: 'poeticsystems.com',
+        recorder: { dont_print: true }
+      });
+    });
+  });
 });

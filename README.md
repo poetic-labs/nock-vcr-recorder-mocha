@@ -47,7 +47,7 @@ describeFixture.only('only test', function() {
   // This will be the only test run
 });
 
-// Usage with Nock options
+// Usage with test specific options
 describeFixture('normal test', function() {
   it('works', function(done) {
     request('http://localhost:4000/users', function(err, res, body) {
@@ -60,6 +60,7 @@ describeFixture('normal test', function() {
     // You can use mocha how you normally would to group tests
   });
 }, {
+  excludeScope: 'github.com',
   recorder: {
     output_objects: false,
     enable_reqheaders_recording: true
@@ -74,8 +75,31 @@ of your fixtures and save over them.
 
 `NOCK_RECORD_ON_FAILURE` - default: false - When true it will record fixtures even when your test fails.
 
-`NOCK_EXCLUDE_SCOPE` - default: null - Set this to a string that will be used to
-exclude specific scope's from being recorded. Most used for `localhost`
+`describeFixture.setDefaultConfig(defaults)`:
+
+Default:
+
+```js
+{
+  // Don't record any requests to this scope
+  excludeScope: 'localhost',
+
+  // These options are passed to the nock recorder that runs behind the scenes
+  // to capture requests
+  recorder: {
+    output_objects:  true,
+    dont_print:      true
+  }
+}
+```
+
+You can call this method to override defaults for ALL tests. It must be called
+before any `describeFixture()` is called to work properly. The best place is in
+a test helper file.
+
+You also are able to pass in test specific options as the last parameter to
+`describeFixture()`. See the "Usage" section above for an example.
+
 
 ## Authors ##
 

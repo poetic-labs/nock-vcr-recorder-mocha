@@ -5,6 +5,8 @@ var path            = require('path');
 var app             = require('./app');
 var describeFixture = require('../lib/describe-fixture');
 
+describeFixture.setDefaultConfig({ excludeScope: 'github.com' });
+
 describeFixture('Recording', function() {
   before(function(done) {
     app.listen(4000, done);
