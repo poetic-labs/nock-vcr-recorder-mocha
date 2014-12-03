@@ -11,12 +11,23 @@ describeFixture('Recording', function() {
   });
 
   describe('successful', function() {
+    before(function() {
+      process.env.NOCK_EXCLUDE_SCOPE = 'github.com';
+    });
+
     after(function() {
       var fixturePath = 'fixtures/Recording/successful/saves a fixture with the server response.js';
       assert(fs.existsSync(path.join(__dirname, fixturePath)));
 
       var fixturePath = 'fixtures/Recording/successful/doesn\'t save a file when no requests are made.js';
       assert(!fs.existsSync(path.join(__dirname, fixturePath)));
+
+      var fixturePath = 'fixtures/Recording/successful/excludes url in NOCK_EXCLUDE_URL.js';
+      var fixture = fs.readFileSync(path.join(__dirname, fixturePath), { encoding: 'utf8' });
+
+      assert(!/github\.com/.test(fixture), 'fixture should not have recorded github');
+
+      delete process.env.NOCK_EXCLUDE_SCOPE
     });
 
     it('saves a fixture with the server response', function(done) {
@@ -25,6 +36,10 @@ describeFixture('Recording', function() {
 
     it('doesn\'t save a file when no requests are made', function() {
       assert(true);
+    });
+
+    it('excludes url in NOCK_EXCLUDE_URL', function(done) {
+      request('https://github.com/poetic.json', done);
     });
   });
 
@@ -89,6 +104,7 @@ describe('Recording', function() {
 describeFixture('Recording - Output Objects', function() {
   before(function(done) {
     app.listen(4006, done);
+    process.env.NOCK_EXCLUDE_SCOPE = 'github.com';
   });
 
   describe('successful', function() {
@@ -98,6 +114,13 @@ describeFixture('Recording - Output Objects', function() {
 
       var fixturePath = 'fixtures/Recording - Output Objects/successful/doesn\'t save a file when no requests are made.js';
       assert(!fs.existsSync(path.join(__dirname, fixturePath)));
+
+      var fixturePath = 'fixtures/Recording - Output Objects/successful/excludes url in NOCK_EXCLUDE_URL.js';
+      var fixture = fs.readFileSync(path.join(__dirname, fixturePath), { encoding: 'utf8' });
+
+      assert(!/github\.com/.test(fixture), 'fixture should not have recorded github');
+
+      delete process.env.NOCK_EXCLUDE_SCOPE
     });
 
     it('saves a fixture with the server response', function(done) {
@@ -106,6 +129,10 @@ describeFixture('Recording - Output Objects', function() {
 
     it('doesn\'t save a file when no requests are made', function() {
       assert(true);
+    });
+
+    it('excludes url in NOCK_EXCLUDE_URL', function(done) {
+      request('https://github.com/poetic.json', done);
     });
   });
 
