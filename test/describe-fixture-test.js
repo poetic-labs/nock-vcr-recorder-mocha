@@ -43,7 +43,7 @@ describe('describeFixture', function() {
     var recordStub = function(name, options) {
       assert.equal(name, testName, 'title is ok');
       assert.deepEqual(options, {
-        excludeScope: ['localhost'],
+        excludeScope: ['localhost', '127.0.0.1', '0.0.0.0'],
         overwrite: false,
         recordOnFailure: false,
         recorder: { output_objects: true, dont_print: true }
