@@ -39,7 +39,12 @@ describe('describeFixture', function() {
   it('defaults to output objects', function() {
     var recordStub = function(name, options) {
       assert.equal(name, testName, 'title is ok');
-      assert.deepEqual(options, { excludeScope: 'localhost', recorder: { output_objects: true, dont_print: true }});
+      assert.deepEqual(options, {
+        excludeScope: 'localhost',
+        overwrite: false,
+        recordOnFailure: false,
+        recorder: { output_objects: true, dont_print: true }
+      });
     }
     var describeFixture = proxyquire('./../lib/describe-fixture', { './recorder': recordStub });
     describeFixture(testName, function() {});
@@ -51,6 +56,8 @@ describe('describeFixture', function() {
         assert.equal(name, testName, 'title is ok');
         assert.deepEqual(options, {
           excludeScope: 'github.com',
+          overwrite: false,
+          recordOnFailure: false,
           recorder: {
             output_objects: true,
             dont_print: false
@@ -74,6 +81,8 @@ describe('describeFixture', function() {
         assert.equal(name, testName, 'title is ok');
         assert.deepEqual(options, {
           excludeScope: 'poeticsystems.com',
+          overwrite: false,
+          recordOnFailure: false,
           recorder: {
             output_objects: true,
             dont_print: true
@@ -91,6 +100,8 @@ describe('describeFixture', function() {
 
       describeFixture(testName, function() {}, {
         excludeScope: 'poeticsystems.com',
+        overwrite: false,
+        recordOnFailure: false,
         recorder: { dont_print: true }
       });
     });

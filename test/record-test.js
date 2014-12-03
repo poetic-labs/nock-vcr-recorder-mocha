@@ -13,10 +13,6 @@ describeFixture('Recording', function() {
   });
 
   describe('successful', function() {
-    before(function() {
-      process.env.NOCK_EXCLUDE_SCOPE = 'github.com';
-    });
-
     after(function() {
       var fixturePath = 'fixtures/Recording/successful/saves a fixture with the server response.js';
       assert(fs.existsSync(path.join(__dirname, fixturePath)));
@@ -28,8 +24,6 @@ describeFixture('Recording', function() {
       var fixture = fs.readFileSync(path.join(__dirname, fixturePath), { encoding: 'utf8' });
 
       assert(!/github\.com/.test(fixture), 'fixture should not have recorded github');
-
-      delete process.env.NOCK_EXCLUDE_SCOPE
     });
 
     it('saves a fixture with the server response', function(done) {
@@ -76,37 +70,34 @@ describe('Recording', function() {
 // The order in this group of tests is important for it to run correctly. The
 // afterEach's need to run in a particular order
 // Skipped as this test passes localy but not on CI. :(
-//describe('Recording', function() {
-  //before(function(done) {
-    //process.env.NOCK_RECORD_ON_FAILURE = true;
-    //app.listen(4003, done);
-  //});
+describe('Recording', function() {
+  before(function(done) {
+    app.listen(4003, done);
+  });
 
-  //afterEach(function() {
-    //var fixturepath = 'fixtures/recording/NOCK_RECORD_ON_FAILURE/saves a fixture when the test fails.js';
-    //assert(fs.existsSync(path.join(__dirname, fixturepath)), 'fixture should exist');
-    //delete process.env.NOCK_RECORD_ON_FAILURE;
-  //});
+  afterEach(function() {
+    var fixturepath = 'fixtures/recording/NOCK_RECORD_ON_FAILURE/saves a fixture when the test fails.js';
+    assert(fs.existsSync(path.join(__dirname, fixturepath)), 'fixture should exist');
+  });
 
-  //describeFixture('NOCK_RECORD_ON_FAILURE', function() {
-    //afterEach(function() {
-      //// This is some hackery to make it think the test failed when it really
-      //// didn't. This works because it uses state internally to check for
-      //// a failure.
-      //this.currentTest.state = 'failed';
-    //});
+  describeFixture('NOCK_RECORD_ON_FAILURE', function() {
+    afterEach(function() {
+      // This is some hackery to make it think the test failed when it really
+      // didn't. This works because it uses state internally to check for
+      // a failure.
+      this.currentTest.state = 'failed';
+    });
 
-    //it('saves a fixture when the test fails', function(done) {
-      //request('http://localhost:4000/test', done);
-    //});
-  //});
-//});
+    it('saves a fixture when the test fails', function(done) {
+      request('http://localhost:4000/test', done);
+    });
+  }, { recordOnFailure: true });
+});
 
 
 describeFixture('Recording - Output Objects', function() {
   before(function(done) {
     app.listen(4006, done);
-    process.env.NOCK_EXCLUDE_SCOPE = 'github.com';
   });
 
   describe('successful', function() {
@@ -121,8 +112,6 @@ describeFixture('Recording - Output Objects', function() {
       var fixture = fs.readFileSync(path.join(__dirname, fixturePath), { encoding: 'utf8' });
 
       assert(!/github\.com/.test(fixture), 'fixture should not have recorded github');
-
-      delete process.env.NOCK_EXCLUDE_SCOPE
     });
 
     it('saves a fixture with the server response', function(done) {
