@@ -72,6 +72,9 @@ of your fixtures and save over them.
 
 `NOCK_RECORD_ON_FAILURE` - default: false - When true it will record fixtures even when your test fails.
 
+`NOCK_EXCLUDE_SCOPE` - default: null - Set this to a string that will be used to
+exclude specific scope's from being recorded. Most used for `localhost`
+
 ## Authors ##
 
 * [Jake Craige](http://twitter.com/jakecraige)
