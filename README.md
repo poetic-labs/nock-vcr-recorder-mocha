@@ -48,7 +48,13 @@ describeFixture.only('only test', function() {
 });
 
 // Usage with test specific options
-describeFixture('normal test', function() {
+describeFixture('normal test', {
+  excludeScope: 'github.com',
+  recorder: {
+    output_objects: false,
+    enable_reqheaders_recording: true
+  }
+}, function() {
   it('works', function(done) {
     request('http://localhost:4000/users', function(err, res, body) {
       assert(!err, 'was success');
@@ -59,12 +65,6 @@ describeFixture('normal test', function() {
   describe('some other test', function() {
     // You can use mocha how you normally would to group tests
   });
-}, {
-  excludeScope: 'github.com',
-  recorder: {
-    output_objects: false,
-    enable_reqheaders_recording: true
-  }
 });
 ```
 

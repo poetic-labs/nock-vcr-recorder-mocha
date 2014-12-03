@@ -21,18 +21,18 @@ describe('describeFixture', function() {
   var describeFixture = proxyquire('./../lib/describe-fixture', { './recorder': recordStub });
 
   it('is called with name and options', function() {
-    describeFixture(testName, function() {}, testOptions);
+    describeFixture(testName, testOptions, noop);
   });
 
   describe('#only', function() {
     it('is called with name options', function() {
-      describeFixture.only(testName, function() {}, testOptions);
+      describeFixture.only(testName, testOptions, noop);
     });
   });
 
   describe('#skip', function() {
     it('is called with name and options', function() {
-      describeFixture.skip(testName, function() {}, testOptions);
+      describeFixture.skip(testName, testOptions, noop);
     });
   });
 
@@ -47,7 +47,7 @@ describe('describeFixture', function() {
       });
     }
     var describeFixture = proxyquire('./../lib/describe-fixture', { './recorder': recordStub });
-    describeFixture(testName, function() {});
+    describeFixture(testName, noop);
   });
 
   describe('#defaultConfig', function() {
@@ -73,7 +73,7 @@ describe('describeFixture', function() {
         }
       });
 
-      describeFixture(testName, function() {});
+      describeFixture(testName, noop);
     });
 
     it('provide custom defaults and scoped options', function() {
@@ -98,12 +98,14 @@ describe('describeFixture', function() {
         }
       });
 
-      describeFixture(testName, function() {}, {
+      describeFixture(testName, {
         excludeScope: 'poeticsystems.com',
         overwrite: false,
         recordOnFailure: false,
         recorder: { dont_print: true }
-      });
+      }, noop);
     });
   });
 });
+
+function noop() {}

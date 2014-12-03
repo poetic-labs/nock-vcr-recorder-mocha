@@ -7,7 +7,7 @@ var describeFixture = require('../lib/describe-fixture');
 
 describeFixture.setDefaultConfig({ excludeScope: 'github.com' });
 
-describeFixture('Recording', function() {
+describeFixture('Recording', { recorder: { output_objects: false }}, function() {
   before(function(done) {
     app.listen(4000, done);
   });
@@ -39,7 +39,7 @@ describeFixture('Recording', function() {
     });
   });
 
-}, { recorder: { output_objects: false }});
+});
 
 // The order in this group of tests is important for it to run correctly. The
 // afterEach's need to run in a particular order
@@ -53,7 +53,7 @@ describe('Recording', function() {
     assert(!fs.existsSync(path.join(__dirname, fixturepath)), 'fixture should not exist');
   });
 
-  describeFixture('failure', function() {
+  describeFixture('failure', { recorder: { output_objects: false }}, function() {
     afterEach(function() {
       // This is some hackery to make it think the test failed when it really
       // didn't. This works because it uses state internally to check for
@@ -65,7 +65,7 @@ describe('Recording', function() {
       request('http://localhost:4000/test', done);
     });
   });
-}, { recorder: { output_objects: false }});
+});
 
 // The order in this group of tests is important for it to run correctly. The
 // afterEach's need to run in a particular order
@@ -80,7 +80,7 @@ describe('Recording', function() {
     assert(fs.existsSync(path.join(__dirname, fixturepath)), 'fixture should exist');
   });
 
-  describeFixture('NOCK_RECORD_ON_FAILURE', function() {
+  describeFixture('NOCK_RECORD_ON_FAILURE', {recordOnFailure: true}, function() {
     afterEach(function() {
       // This is some hackery to make it think the test failed when it really
       // didn't. This works because it uses state internally to check for
@@ -91,7 +91,7 @@ describe('Recording', function() {
     it('saves a fixture when the test fails', function(done) {
       request('http://localhost:4000/test', done);
     });
-  }, { recordOnFailure: true });
+  });
 });
 
 
