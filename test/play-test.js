@@ -7,7 +7,7 @@ var mkdirp         = require('mkdirp');
 var describeFixture = require('../lib/describe-fixture');
 
 var called;
-describeFixture('Playback', function() {
+describeFixture('Playback', { recorder: { output_objects: false }}, function() {
   before(function(done) {
     var fileContents = fs.readFileSync(
       path.join(__dirname, 'test-fixtures', 'saved-fixture.js'),
@@ -35,7 +35,7 @@ describeFixture('Playback', function() {
       done();
     });
   });
-}, { output_objects: false });
+});
 
 describeFixture('Playback - Output Objects', function() {
   before(function(done) {

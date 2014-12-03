@@ -47,8 +47,14 @@ describeFixture.only('only test', function() {
   // This will be the only test run
 });
 
-// Usage with Nock options
-describeFixture('normal test', function() {
+// Usage with test specific options
+describeFixture('normal test', {
+  excludeScope: 'github.com',
+  recorder: {
+    output_objects: false,
+    enable_reqheaders_recording: true
+  }
+}, function() {
   it('works', function(done) {
     request('http://localhost:4000/users', function(err, res, body) {
       assert(!err, 'was success');
@@ -59,18 +65,40 @@ describeFixture('normal test', function() {
   describe('some other test', function() {
     // You can use mocha how you normally would to group tests
   });
-}, {
-   output_objects: false,
-   enable_reqheaders_recording: true
 });
 ```
 
 ## Configuration
 
-`NOCK_RECORD` - default: false -  When true it will re-record all
-of your fixtures and save over them.
+Defaults:
 
-`NOCK_RECORD_ON_FAILURE` - default: false - When true it will record fixtures even when your test fails.
+```js
+{
+  // Don't record any requests to this scope
+  excludeScope: 'localhost',
+
+  // Re-record and overwrite your current fixtures
+  overwrite: false,
+
+  // Record fixtures when test fails
+  recordOnFailure: false,
+
+  // These options are passed to the nock recorder that runs behind the scenes
+  // to capture requests
+  recorder: {
+    output_objects:  true,
+    dont_print:      true
+  }
+}
+```
+
+To overide these you can call `describeFixture.setDefaults` with an object to
+override them for ALL tests. It must be called before any `describeFixture()` is
+called to work properly. The best place is in a test helper file.
+
+You also are able to pass in test specific options as the last parameter to
+`describeFixture()`. See the "Usage" section above for an example.
+
 
 ## Authors ##
 
