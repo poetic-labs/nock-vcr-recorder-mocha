@@ -60,8 +60,7 @@ describeFixture('normal test', function() {
     // You can use mocha how you normally would to group tests
   });
 }, {
-   output_objects: true,
-   dont_print: true,
+   output_objects: false,
    enable_reqheaders_recording: true
 });
 ```
