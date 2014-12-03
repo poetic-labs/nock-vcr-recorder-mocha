@@ -7,23 +7,18 @@ var describeFixture = require('../lib/describe-fixture');
 
 describeFixture.setDefaultConfig({ excludeScope: 'github.com' });
 
-describeFixture('Recording', { recorder: { output_objects: false }}, function() {
+describe('Recording', function() {
   before(function(done) {
     app.listen(4000, done);
   });
 
-  describe('successful', function() {
+  describeFixture('successful', { recorder: { output_objects: false }}, function() {
     after(function() {
       var fixturePath = 'fixtures/Recording/successful/saves a fixture with the server response.js';
       assert(fs.existsSync(path.join(__dirname, fixturePath)));
 
       var fixturePath = 'fixtures/Recording/successful/doesn\'t save a file when no requests are made.js';
       assert(!fs.existsSync(path.join(__dirname, fixturePath)));
-
-      var fixturePath = 'fixtures/Recording/successful/excludes url in NOCK_EXCLUDE_URL.js';
-      var fixture = fs.readFileSync(path.join(__dirname, fixturePath), { encoding: 'utf8' });
-
-      assert(!/github\.com/.test(fixture), 'fixture should not have recorded github');
     });
 
     it('saves a fixture with the server response', function(done) {
@@ -33,8 +28,35 @@ describeFixture('Recording', { recorder: { output_objects: false }}, function() 
     it('doesn\'t save a file when no requests are made', function() {
       assert(true);
     });
+  });
 
-    it('excludes url in NOCK_EXCLUDE_URL', function(done) {
+  describeFixture('excludeScope array', {
+    excludeScope: ['poeticsystems.com', 'github.com'],
+    recorder: { output_objects: false }
+  }, function() {
+    after(function() {
+      var fixturePath = 'fixtures/Recording/excludeScope array/excludes array of urls.js';
+      var fixture = fs.readFileSync(path.join(__dirname, fixturePath), { encoding: 'utf8' });
+
+      assert(!/github\.com/.test(fixture), 'fixture should not have recorded github');
+    });
+
+    it('excludes array of urls', function(done) {
+      request('https://github.com/poetic.json', done);
+    });
+  });
+
+  describeFixture('excludeScope string', {
+    excludeScope: 'github.com'
+  }, function() {
+    after(function() {
+      var fixturePath = 'fixtures/Recording/excludeScope string/excludes string url.js';
+      var fixture = fs.readFileSync(path.join(__dirname, fixturePath), { encoding: 'utf8' });
+
+      assert(!/github\.com/.test(fixture), 'fixture should not have recorded github');
+    });
+
+    it('excludes string url', function(done) {
       request('https://github.com/poetic.json', done);
     });
   });
@@ -95,23 +117,18 @@ describe('Recording', function() {
 });
 
 
-describeFixture('Recording - Output Objects', function() {
+describe('Recording - Output Objects', function() {
   before(function(done) {
     app.listen(4006, done);
   });
 
-  describe('successful', function() {
+  describeFixture('successful', function() {
     after(function() {
       var fixturePath = 'fixtures/Recording - Output Objects/successful/saves a fixture with the server response.js';
       assert(fs.existsSync(path.join(__dirname, fixturePath)));
 
       var fixturePath = 'fixtures/Recording - Output Objects/successful/doesn\'t save a file when no requests are made.js';
       assert(!fs.existsSync(path.join(__dirname, fixturePath)));
-
-      var fixturePath = 'fixtures/Recording - Output Objects/successful/excludes url in NOCK_EXCLUDE_URL.js';
-      var fixture = fs.readFileSync(path.join(__dirname, fixturePath), { encoding: 'utf8' });
-
-      assert(!/github\.com/.test(fixture), 'fixture should not have recorded github');
     });
 
     it('saves a fixture with the server response', function(done) {
@@ -121,8 +138,34 @@ describeFixture('Recording - Output Objects', function() {
     it('doesn\'t save a file when no requests are made', function() {
       assert(true);
     });
+  });
 
-    it('excludes url in NOCK_EXCLUDE_URL', function(done) {
+  describeFixture('excludeScope array', {
+    excludeScope: ['github.com', 'poeticsystems.com']
+  }, function() {
+    after(function() {
+      var fixturePath = 'fixtures/Recording - Output Objects/excludeScope array/excludes array of urls.js';
+      var fixture = fs.readFileSync(path.join(__dirname, fixturePath), { encoding: 'utf8' });
+
+      assert(!/github\.com/.test(fixture), 'fixture should not have recorded github');
+    });
+
+    it('excludes array of urls', function(done) {
+      request('https://github.com/poetic.json', done);
+    });
+  });
+
+  describeFixture('excludeScope string', {
+    excludeScope: 'github.com'
+  }, function() {
+    after(function() {
+      var fixturePath = 'fixtures/Recording - Output Objects/excludeScope string/excludes string url.js';
+      var fixture = fs.readFileSync(path.join(__dirname, fixturePath), { encoding: 'utf8' });
+
+      assert(!/github\.com/.test(fixture), 'fixture should not have recorded github');
+    });
+
+    it('excludes string url', function(done) {
       request('https://github.com/poetic.json', done);
     });
   });
