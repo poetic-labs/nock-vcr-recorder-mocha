@@ -19,3 +19,10 @@ global.cassettePath = function cassettePath(name) {
     path.join('cassettes', name + '.json')
   );
 }
+
+
+global.readCassette = function readCassette(name) {
+  return JSON.parse(
+    fs.readFileSync(cassettePath(name), { encoding: 'utf8' })
+  );
+}
