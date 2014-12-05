@@ -1,107 +1,102 @@
-# Mocha Nock Fixtures [![Build Status](https://travis-ci.org/poetic/mocha-nock-fixtures.svg?branch=master)](https://travis-ci.org/poetic/mocha-nock-fixtures)
+# Nock VCR Recorder Mocha [![Build Status](https://travis-ci.org/poetic/nock-vcr-recorder-mocha.svg?branch=master)](https://travis-ci.org/poetic/nock-vcr-recorder-mocha)
 
 ## About
 
-A simple library that makes saving fixtures with
-[nock](https://github.com/pgte/nock) and
-[mocha](http://visionmedia.github.io/mocha/) easy. Just
-use `describeFixture` instead of `describe` and it will record outbound requests
-using nock into `test/fixtures` and read from them the next time you run the
-tests.
+A wrapper around
+[nock-vcr-recorder](https://github.com/poetic/nock-vcr-recorder) to simplify
+creating vcr cassettes in mocha.
 
 ## Install
 
 ```bash
-npm install --save-dev mocha-nock-fixtures
+npm install --save-dev nock-vcr-recorder-mocha
 ```
 
 ## Usage
 
-Use `describeFixture` instead of `describe` and it will use nock to record all
-requests into your `test/fixtures` directory. It also supports `.skip` and
-`.only` as mocha does.
+When you need to record cassettes you can either:
+
+- Use `vcr.describe` instead of `describe`
+- Use `vcr.it` instead of `it`
+
+`vcr.describe` will record a cassette before each test in that block. So
+you can have multiple `it`s and it will record any requests within them.
+
+`vcr.it` will record a cassette for one specific test.
+
+They both support `.skip` and `.only` as mocha does.
 
 ```js
-var request         = require('request');
-var assert          = require('assert');
-var describeFixture = require('mocha-nock-fixtures');
+var request = require('request');
+var assert  = require('assert');
+var vcr     = require('nock-vcr-recorder-mocha');
 
-describeFixture('normal test', function() {
-  it('works', function(done) {
+describe('normal test', function() {
+  vcr.it.only('works', function(done) {
     request('http://localhost:4000/users', function(err, res, body) {
       assert(!err, 'was success');
       done();
     });
   });
 
-  describe('some other test', function() {
+  it('some other test', function() {
     // You can use mocha how you normally would to group tests
   });
 });
 
-describeFixture.skip('skipped test', function() {
+vcr.describe.skip('skipped test', function() {
   // Anything in here will be skipped
-});
-
-describeFixture.only('only test', function() {
-  // This will be the only test run
-});
-
-// Usage with test specific options
-//
-// This test will not record the request to localhost:4000 and anything it does
-// record it will also record the reqheaders
-describeFixture('normal test', {
-  excludeScope: 'localhost:4000',
-  recorder: {
-    enable_reqheaders_recording: true
-  }
-}, function() {
-  it('works', function(done) {
+  // If the skip is removed, this request would be recorded for playback in
+  // later tests
+  it('makes request', function(done) {
     request('http://localhost:4000/users', function(err, res, body) {
       assert(!err, 'was success');
       done();
     });
-  });
-
-  describe('some other test', function() {
-    // You can use mocha how you normally would to group tests
   });
 });
 ```
 
 ## Configuration
 
-Defaults:
+List of [available configuration
+options](https://github.com/poetic/nock-vcr-recorder#configuration)
+
+#### Test specific configuration
 
 ```js
-{
-  // Don't record any requests to this scope
-  // It can be an array or string
-  excludeScope: ['localhost', '127.0.0.1', '0.0.0.0'],
+vcr.it('works', {
+  mode: 'all'
+}, function(done) {
+  request('http://localhost:4000/users', function(err, res, body) {
+    assert(!err, 'was success');
+    done();
+  });
+});
 
-  // Re-record and overwrite your current fixtures
-  overwrite: false,
-
-  // Record fixtures when test fails
-  recordOnFailure: false,
-
-  // These options are passed to the nock recorder that runs behind the scenes
-  // to capture requests
-  recorder: {
-    output_objects:  true,
-    dont_print:      true
-  }
-}
+vcr.describe('works', { mode: 'all' }, function() {
+  it('makes request', function(done) {
+    request('http://localhost:4000/users', function(err, res, body) {
+      assert(!err, 'was success');
+      done();
+    });
+  });
+});
 ```
 
-To overide these you can call `describeFixture.setDefaults` with an object to
-override them for ALL tests. It must be called before any `describeFixture()` is
-called to work properly. The best place is in a test helper file.
+#### Global Configuration
 
-You also are able to pass in test specific options as the last parameter to
-`describeFixture()`. See the "Usage" section above for an example.
+A `vcr.config` method is exposed to set default configuration on a global level.
+This should be done before any of your tests have run. In mocha you can put this
+in a helper file.
 
+```js
+var vcr = require('nock-vcr-recorder-mocha');
+
+ncr.config({
+  excludeScope: ['github.com']
+});
+```
 
 ## Authors ##
 
