@@ -25,12 +25,12 @@
   },
   "homepage": "https://github.com/poetic/nock-vcr-recorder-mocha",
   "dependencies": {
+    "nock-vcr-recorder": "^0.1.2",
     "rsvp": "^3.0.14"
   },
   "devDependencies": {
     "express": "^3.4.8",
     "mocha": "^2.0.1",
-    "nock-vcr-recorder": "^0.1.1",
     "request": "~2.34.0"
   }
 }
