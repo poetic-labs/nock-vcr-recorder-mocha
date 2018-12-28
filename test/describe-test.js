@@ -9,7 +9,7 @@ var slug    = require('slug');
 
 vcr.describe('describe', function() {
   before(function(done) {
-    app.listen(4007, done);
+    this.server = app.listen(4007, done);
   });
 
   it('slugifies a cassette - callback', function(done) {
@@ -24,10 +24,11 @@ vcr.describe('describe', function() {
     assert.ok(true);
   });
 
-  after(function() {
+  after(function(done) {
     assertCassette('describe/' + slug('slugifies a cassette - promise'));
     assertCassette('describe/' + slug('slugifies a cassette - callback'));
     assertNotCassette(slug('describe/doesnt save with no requests'));
+    this.server.close(done)
   });
 });
 
