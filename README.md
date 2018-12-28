@@ -1,4 +1,5 @@
-# Nock VCR Recorder Mocha [![Build Status](https://travis-ci.org/poetic/nock-vcr-recorder-mocha.svg?branch=master)](https://travis-ci.org/poetic/nock-vcr-recorder-mocha)
+# Nock VCR Recorder Mocha 
+[![Build Status](https://travis-ci.com/geoffdutton/nock-vcr-recorder-mocha.svg?branch=master)](https://travis-ci.com/geoffdutton/nock-vcr-recorder-mocha)
 
 ## About
 

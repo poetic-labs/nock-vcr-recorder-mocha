@@ -2,17 +2,17 @@
 
 var assert     = require('assert');
 var request    = require('request');
-var RSVP       = require('rsvp');
 var vcr        = require('../');
 var realVcr    = require('nock-vcr-recorder');
+var slug       = require('slug');
 
 describe('config', function() {
   it('changes realVcr\'s default config', function() {
-    assert.equal(realVcr._config.cassetteLibraryDir, 'cassettes');
+    assert.strictEqual(realVcr._config.cassetteLibraryDir, 'cassettes');
 
     vcr.config({ cassetteLibraryDir: 'fixtures' });
 
-    assert.equal(realVcr._config.cassetteLibraryDir, 'fixtures');
+    assert.strictEqual(realVcr._config.cassetteLibraryDir, 'fixtures');
   });
 
   after(function() {
@@ -29,7 +29,7 @@ vcr.describe('config - describe', {
   });
 
   after(function() {
-    var cassette = readCassette('config - describe/excludes github');
+    var cassette = readCassette(slug('config - describe') + '/' + slug('excludes github'));
 
     assert.equal(cassette.length, 0);
   });
@@ -43,9 +43,9 @@ describe('config - it', function() {
   });
 
   after(function() {
-    var cassette = readCassette('config - it/excludes github');
+    var cassette = readCassette(slug('config - it') + '/' + slug('excludes github'));
 
-    assert.equal(cassette.length, 0);
+    assert.strictEqual(cassette.length, 0);
   });
 });
 
